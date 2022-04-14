@@ -1,0 +1,19 @@
+{
+  "name": "nft_marketplace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuscleBunny/NFT_MarketPlace.git"
+  },
+  "author": "bunny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MuscleBunny/NFT_MarketPlace/issues"
+  },
+  "homepage": "https://github.com/MuscleBunny/NFT_MarketPlace#readme"
+}
