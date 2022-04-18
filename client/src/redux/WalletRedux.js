@@ -26,7 +26,6 @@ Creators.connect = () => {
 
 Creators.disconnect = () => {
   return async (dispatch) => {
-    window.ethereum.close();
     dispatch(Creators.setCurrentAccount(null));
   };
 };
