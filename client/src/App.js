@@ -10,13 +10,15 @@ function App() {
   const dispatch = useDispatch();
   const curAccount = useSelector(AccountSelectors.selectAccount);
   
-  const checkWalletIsConnected = () => {
+  const checkWalletIsConnected = async () => {
     const {ethereum} = window;
     if ( !ethereum ) {
       console.log("Make sure u have installed MetaMask.");
       return;
     }
-    console.log("ready to go", ethereum.isConnected());
+    const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+    console.log("account changed", accounts, accounts.length);
+    dispatch(AccountActions.setCurrentAccount( accounts && accounts.length>0 ? accounts[0] : "" ));
   }
 
   const connectWallet = () => {
@@ -29,9 +31,28 @@ function App() {
 
   useEffect( ()=> {
     checkWalletIsConnected();
+    const {ethereum} = window;
+    ethereum.on('accountsChanged', async () => {
+      const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+      console.log("account changed", accounts, accounts.length);
+      dispatch(AccountActions.setCurrentAccount( accounts && accounts.length>0 ? accounts[0] : "" ));
+    });
+    ethereum.on('connect', async (connectInfo) => {
+      console.log("connect", connectInfo);
+    });
+    ethereum.on('disconnect', async (error) => {
+      console.log("disconnect", error);
+    });
+    ethereum.on('chainChanged', async (chainID) => {
+      console.log("chainChanged", chainID);
+    });
+    ethereum.on('message', async (message) => {
+      console.log("message", message);
+    });
   }, []);
   return (
     <div>
+      <p>{curAccount}</p>
       <button
           onClick={ curAccount ? disconnectWallet : connectWallet }
       >
